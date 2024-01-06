@@ -2,7 +2,7 @@
 
 
 ## Description
-Simple resnet18 code to train a dodgy eye-tracker. It jumps around a lot, but for purely image input on a relatively small dataset for the task it does a surprisingly good job.
+Simple code to train a resnet18 with fastai for dodgy eye-tracking. It jumps around a lot, but for purely image input on a relatively small dataset for the task it does a surprisingly good job.
 
 With around 6K samples of me in different lighting conditions, distances, postures, head rotations and offsets, I hit an MSE loss of around 0.0067, which is still an error range of a couple hundred pixels. I noticed a dramatic jump in performance going from 4K samples to 6K, so I definitely think there's plenty more that can be learned with just more samples alone.
 
