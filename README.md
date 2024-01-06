@@ -9,9 +9,15 @@ With around 6K samples of me in different lighting conditions, distances, postur
 Loss dropped to around 0.005 with ~7K samples, but I didn't notice a significant improvement when actually running the model (possibly a dataset issue).
 
 ## Possible improvements:
-To accurately predict, the model needs to infer info about: - Distance to face - Rotation of head - Rotation of eyes - Head offset - Camera offset and rotation - Screen dimensions
+To accurately predict, the model needs to infer info about: 
+- Distance to face
+- Rotation of head
+- Rotation of eyes
+- Head offset
+- Camera offset and rotation
+- Screen dimensions
 
-Hopefully by feeding in a few of these features it'll improve convergence time and allow it to track other features better. Tools like dlib facial landmarks could probably be used to track head rotation and offset (in image space), and possibly distance with some maths around distance between features accounting for rotation (no idea what that equation looks like).
+Hopefully by feeding in a few of these features it'll improve convergence time and allow it to track other features better. Tools like facial landmarking models could probably be used to track head rotation and offset (in image space), and possibly distance with some maths around distance between features accounting for rotation (no idea what that equation looks like).
 
 To be able to generalize to different setups and people, you'd want to pass in user specific info like display dimensions and camera position & rotation in a configuration step.
 
