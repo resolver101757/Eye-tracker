@@ -29,7 +29,7 @@ def get_random_edge_coordinate(screen_width, screen_height, edge_size):
 
 
 # Directory to save captured images
-save_dir = "captured_images"
+save_dir = "G:\My Drive\Learning\data_science\datasets\gaze-points"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 

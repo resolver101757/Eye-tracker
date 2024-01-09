@@ -30,7 +30,7 @@ def normalized_coords_to_coords(n_coords):
     ycoord = n_coords[0] * 1440
     return ycoord, xcoord
 
-model = load_learner(Path('gaze_predictor.pkl'), False)
+model = load_learner(Path('.\models\gaze_predictor.pkl'), False)
 
 canvas = pygame.display.set_mode(display_dims)
 
