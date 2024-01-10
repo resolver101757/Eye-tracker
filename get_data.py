@@ -1,3 +1,4 @@
+# get the coordinates of the X and save the image
 import pygame
 import cv2
 import random
@@ -17,15 +18,27 @@ screen_width, screen_height = infoObject.current_w, infoObject.current_h
 print ("screen_width = ", screen_width)
 print ("screen_height = ", screen_height)
 
-def get_random_edge_coordinate(screen_width, screen_height, edge_size):
-    # Define edge regions
-    top_edge = (random.randint(0, screen_width), random.randint(0, edge_size))
-    bottom_edge = (random.randint(0, screen_width), random.randint(screen_height - edge_size, screen_height))
-    left_edge = (random.randint(0, edge_size), random.randint(0, screen_height))
-    right_edge = (random.randint(screen_width - edge_size, screen_width), random.randint(0, screen_height))
+import random
 
-    # Randomly choose an edge region
-    return random.choice([top_edge, bottom_edge, left_edge, right_edge])
+def get_random_coordinate(screen_width, screen_height, edge_size, mode = 'whole'):
+    if mode == 'edge':
+        # Define edge regions
+        top_edge = (random.randint(0, screen_width), random.randint(0, edge_size))
+        bottom_edge = (random.randint(0, screen_width), random.randint(screen_height - edge_size, screen_height))
+        left_edge = (random.randint(0, edge_size), random.randint(0, screen_height))
+        right_edge = (random.randint(screen_width - edge_size, screen_width), random.randint(0, screen_height))
+        # Randomly choose an edge region
+        return random.choice([top_edge, bottom_edge, left_edge, right_edge])
+    elif mode == 'whole':
+        # Return a random coordinate within the whole screen
+        return (random.randint(0, screen_width), random.randint(0, screen_height))
+    elif mode == 'centre':
+        # Return a random coordinate near the centre of the screen
+        centre_x = screen_width // 2
+        centre_y = screen_height // 2
+        return (random.randint(centre_x - edge_size, centre_x + edge_size), random.randint(centre_y - edge_size, centre_y + edge_size))
+    else:
+        raise ValueError("Invalid mode. Choose from 'edge', 'whole', or 'centre'.")
 
 
 # Directory to save captured images
@@ -49,10 +62,10 @@ def capture_and_save(x, y):
         print(f"Image saved as {filename}")
 
     # Generate new coordinates for "X"
-    return get_random_edge_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
+    return get_random_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
 
 # Initial position of the "X"
-x, y = get_random_edge_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
+x, y = get_random_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
 
 
 
@@ -63,7 +76,7 @@ while running:
             if event.key == pygame.K_s:
                 x, y = capture_and_save(x, y)
             elif event.key == pygame.K_c:  # Skip without saving
-                x, y = get_random_edge_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
+                x, y = get_random_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
             elif event.key is pygame.K_q:
                 running = False
 
