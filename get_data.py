@@ -13,7 +13,6 @@ camera = cv2.VideoCapture(1)  # Adjust the camera index if needed
 infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN)
 screen_width, screen_height = infoObject.current_w, infoObject.current_h
-screen_width, screen_height = infoObject.current_w, infoObject.current_h
 
 print ("screen_width = ", screen_width)
 print ("screen_height = ", screen_height)
