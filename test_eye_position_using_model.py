@@ -55,7 +55,7 @@ def normalized_coords_to_coords(n_coords):
     ycoord = n_coords[0] * height
     return ycoord, xcoord
 
-model = load_learner(Path(r'G:\My Drive\Learning\data_science\models\eye-tracker\20240111_171100_eye_tracker.pkl'), cpu=True)
+model = load_learner(Path(r'G:\My Drive\Learning\data_science\models\eye-tracker\20240112_133240_eye_tracker-first_save_after_correct_screen_size.pkl'), cpu=True)
 
 canvas = pygame.display.set_mode(display_dims)
 
