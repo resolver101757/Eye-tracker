@@ -4,11 +4,20 @@ from fastai.vision.all import *
 import cv2
 import pathlib
 import json
+import platform
+import os
+
+# gets the right screen size for the current computer
+if os.path.isfile('./home_laptop'):
+    screen = "home_laptop"
+else:
+    print("File does not exist")
+
 
 with open('screen_sizes.json', 'r') as f:
     screen_sizes = json.load(f)
 
-screen = screen_sizes['work_screen']
+screen = screen_sizes[screen]
 width = screen['width']
 height = screen['height']
 display_dims = (width, height)

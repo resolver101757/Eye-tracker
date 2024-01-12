@@ -4,6 +4,8 @@ import cv2
 import random
 import os
 from datetime import datetime
+import random
+
 
 # Initialize Pygame and the camera
 pygame.init()
@@ -17,7 +19,6 @@ screen_width, screen_height = infoObject.current_w, infoObject.current_h
 print ("screen_width = ", screen_width)
 print ("screen_height = ", screen_height)
 
-import random
 
 def get_random_coordinate(screen_width, screen_height, edge_size, mode = 'whole'):
     if mode == 'edge':
@@ -67,6 +68,8 @@ def capture_and_save(x, y):
 x, y = get_random_coordinate(screen_width, screen_height, 100)  # Adjust edge_size as needed
 
 
+# Display the "X" at the current position
+font = pygame.font.Font('Arial', 74)
 
 running = True
 while running:
@@ -82,11 +85,20 @@ while running:
     # Clear screen
     screen.fill((0, 0, 0))
 
-    # Display the "X" at the current position
-    font = pygame.font.Font(None, 74)
+    # Calculate middle of the screen
+    middle_x = screen_width // 2
+    middle_y = screen_height // 2
+    # Convert the coordinates to string
+    coordinates_text = str((middle_x, middle_y))
+    # Render the coordinates
+    coordinates_surface = font.render(coordinates_text, True, (255, 255, 255))
+    # Display the coordinates at the middle of the screen
+    screen.blit(coordinates_surface, (middle_x - coordinates_surface.get_width() // 2, middle_y - coordinates_surface.get_height() // 2))
+    
+
     text = font.render("X", True, (255, 255, 255))
     screen.blit(text, (x, y))
-
+    
     # Update the display
     pygame.display.flip()
 

@@ -2,5 +2,10 @@
     "work_screen": {
         "width": 2560,
         "height": 1440
+    },
+    "home_laptop": {
+        "width": 1536,
+        "height": 960
     }
+
 }
