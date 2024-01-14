@@ -7,9 +7,16 @@ from datetime import datetime
 import random
 
 
+# gets the right screen size for the current computer
+if os.path.isfile('./current_device_home_laptop'):
+    screen_locaton = "home_laptop"
+else:
+    print("File does not exist")
+
 # Initialize Pygame and the camera
 pygame.init()
 camera = cv2.VideoCapture(1)  # Adjust the camera index if needed
+
 
 # Get screen size and create a fullscreen window
 infoObject = pygame.display.Info()
@@ -21,6 +28,7 @@ print ("screen_height = ", screen_height)
 
 
 def get_random_coordinate(screen_width, screen_height, edge_size, mode = 'whole'):
+    print("get_random_coordinate", screen_width, screen_height, edge_size, mode)
     if mode == 'edge':
         # Define edge regions
         top_edge = (random.randint(0, screen_width), random.randint(0, edge_size))
@@ -43,6 +51,7 @@ def get_random_coordinate(screen_width, screen_height, edge_size, mode = 'whole'
 
 # Directory to save captured images
 save_dir = "G:\My Drive\Learning\data_science\datasets\gaze-points"
+save_dir = f"{save_dir}\{screen_locaton}"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
@@ -69,7 +78,7 @@ x, y = get_random_coordinate(screen_width, screen_height, 100)  # Adjust edge_si
 
 
 # Display the "X" at the current position
-font = pygame.font.Font('Arial', 74)
+font = pygame.font.Font(None, 74)
 
 running = True
 while running:
@@ -89,7 +98,7 @@ while running:
     middle_x = screen_width // 2
     middle_y = screen_height // 2
     # Convert the coordinates to string
-    coordinates_text = str((middle_x, middle_y))
+    coordinates_text = str((x, y))
     # Render the coordinates
     coordinates_surface = font.render(coordinates_text, True, (255, 255, 255))
     # Display the coordinates at the middle of the screen
