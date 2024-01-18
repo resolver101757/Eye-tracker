@@ -10,8 +10,10 @@ import os
 # gets the right screen size for the current computer
 if os.path.isfile('./current_device_home_laptop'):
     screen_locaton = "home_laptop"
+elif os.path.isfile('./current_device_work_laptop'):
+   screen_locaton = "work_screen"
 else:
-    print("File does not exist")
+    print("no config found")
 
 
 with open('screen_sizes.json', 'r') as f:
@@ -95,6 +97,7 @@ while True:
     pred = model.predict(img)
     
     new_pred = normalized_coords_to_coords(pred[0])
+    new_pred
     print(pred[0], new_pred)
     pygame.draw.ellipse(canvas, 'red', pygame.Rect(new_pred[1], new_pred[0], 10, 10))
     pygame.display.update()

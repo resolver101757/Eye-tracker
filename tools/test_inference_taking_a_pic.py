@@ -1,11 +1,9 @@
-from fastai.basics import *
-from fastai.vision.all import *
-import cv2
-import pathlib
-import json
-import os
 import tkinter as tk
 from PIL import Image, ImageTk
+import cv2
+from pathlib import Path
+from fastai.vision.all import *
+import json
 import sys
 
 # gets the right screen size for the current computer
@@ -62,48 +60,15 @@ screen_height = root.winfo_screenheight()
 center_width = (screen_width // 2)
 centre_height = (screen_height // 2)
 
-
 # Set window dimensions
 screen = {'width': width, 'height': height}  # Example dimensions
 root.geometry(f"{screen['width']}x{screen['height']}")
 
 # Create a canvas for drawing
 canvas = tk.Canvas(root, width=screen_width, height=screen_height, bg='black')
-canvas.pack() 
-
+canvas.pack()
 
 def normalized_coords_to_coords(n_coords):
     xcoord = n_coords[0] * width
     ycoord = n_coords[1] * height
-    return xcoord , ycoord
-
-# load the model
-# Dans predictor 
-# model = load_learner(Path(r"G:\My Drive\Learning\data_science\models\eye-tracker\dans_gaze_predictor.pkl"), cpu=True)
-
-model = load_learner(Path(r"G:\My Drive\Learning\data_science\models\eye-tracker\20240112_140058_eye_tracker-first_save_after_correct_screen_size.pkl"), cpu=True)
-
-cap = cv2.VideoCapture(1)
-
-def update_frame():
-    ret, frame = cap.read()
-    if ret:
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        img = cv2.flip(frame, 0)
-        cv2.imshow('Camera Feed', img)
-        img = Image.fromarray(frame).resize(image_dims)
-        pred = model.predict(img)
-        new_pred = normalized_coords_to_coords(pred[0])
-        canvas.delete("all")
-        canvas.create_oval(new_pred[1]-5, new_pred[0]-5, new_pred[1]+5, new_pred[0]+5, fill='red')
-
-    root.after(10, update_frame)
-
-def on_closing():
-    cap.release()
-    root.destroy()
-    sys.exit()
-
-root.protocol("WM_DELETE_WINDOW", on_closing)
-update_frame()
-root.mainloop()
+    return xcoord
