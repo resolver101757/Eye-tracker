@@ -1,3 +1,7 @@
+# This Python script uses a pre-trained model to predict the x and y coordinates of a gaze from images in a specified directory.
+# It then compares these predicted coordinates with the actual coordinates, which are extracted from the image filenames.
+# The script prints out the differences between the predicted and actual coordinates for each image.
+
 from fastai.basics import *
 from fastai.vision.all import *
 import cv2
@@ -9,6 +13,9 @@ from PIL import Image, ImageTk
 import sys
 from PIL import Image
 import os
+
+# directory of images to predict against 
+directory = r"C:\development\github projects\Eye-tracker\captured_images"
 
 
 width = 2560
@@ -81,15 +88,9 @@ def compare_prediction_with_actual(image_path, image_dims):
     print(abs(pred_normalised[0] - file_name_coords[0]) / width, abs(pred_normalised[1] - file_name_coords[1]) / height)
     
 
-# loop through large image folder 
-directory = r"C:\development\github projects\Eye-tracker\captured_images"
 for filename in os.listdir(directory):
     if filename.endswith(".png"):
         image_path = os.path.join(directory, filename)
         compare_prediction_with_actual(image_path, image_dims)
-
-# loop though individual image    
-compare_prediction_with_actual(r"C:\development\github projects\Eye-tracker\captured_images\20240109-172807_1841_100.png", image_dims)
-    
 
 
