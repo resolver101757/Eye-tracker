@@ -20,18 +20,22 @@ print("screen location : ", screen_location)
 with open('screen_sizes.json', 'r') as f:
     screen_sizes = json.load(f)
 
-# does this need to be in here.  
+# is this relevant anymore? 
+# should i just use the screen size of the current computer from tkinter?
 screen = screen_sizes[screen_location]
 width = screen['width']
 height = screen['height']
 display_dims = (width, height)
 print("screen dimensions : ", display_dims)
 
+# dimensions of the image that the model was trained on
 image_dims = (320,240)
 
+# this is a hack to get the model to load on windows
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
+# not used on inference but needed for the model Pickle to load
 def get_y(fname):
     coords = fname.name.split('_')[1:]
 
@@ -42,6 +46,7 @@ def get_y(fname):
     coords = tensor([x,y])
     return coords
 
+# not used on inference but needed for the model Pickle to load
 def imgname_to_coords(fname):
     # Extract coordinates from filename
     parts = fname.name.split('_')[1:]
@@ -52,6 +57,9 @@ def imgname_to_coords(fname):
     # Return the scaled coordinates as a tensor
     return tensor([x_scaled, y_scaled]) #just need this for the fastai learner to load, this isn't used by the model
 
+# exits full screen mode
+def exit_fullscreen(event):
+    root.attributes('-fullscreen', False)
 
 # Initialize the main window
 root = tk.Tk()
@@ -61,6 +69,8 @@ screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 center_width = (screen_width // 2)
 centre_height = (screen_height // 2)
+
+root.bind('<Escape>', exit_fullscreen)
 
 
 # Set window dimensions
