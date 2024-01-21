@@ -1,3 +1,7 @@
+# This program is a Python-based eye-tracking application that uses a webcam to capture images, processes them with a deep learning model to predict gaze coordinates, 
+# and displays these predictions on a full-screen graphical interface. It integrates technologies like OpenCV for image capture, FastAI for model prediction, and Tkinter 
+# for the user interface, offering an interactive and visual demonstration of eye-tracking technology.
+
 import tkinter as tk
 from tkinter import Canvas
 import cv2
@@ -12,6 +16,8 @@ import random
 
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
+
+capture_counter = 0
 
 
 def get_y(fname):
@@ -31,25 +37,16 @@ def normalized_coords_to_coords(n_coords):
     ycoord = n_coords[1] * screen_height
     return xcoord , ycoord
 
+
 # Function to capture image and process it
 def capture_image(event):
+    global capture_counter  # Declare capture_counter as global
     # Capture the image
-    cap = cv2.VideoCapture(0)
     ret, frame = cap.read()
-    cap.release()
-    
-    if ret:
-        # Optionally save or show the image here
-        cv2.imwrite("captured_image.jpg", frame)  # Save the captured image
-
+      
+    if ret:        
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = cv2.flip(frame, 0)
-
-        # Here you would pass 'frame' to your model
-        # For example: predicted_x, predicted_y = your_model.predict(frame)
-        # For demonstration, using dummy coordinates (100, 100)
-        
-        
         pred = model.predict(img)
         new_pred = normalized_coords_to_coords(pred[0])
 
@@ -57,18 +54,22 @@ def capture_image(event):
         print(f"predicted positions, predicted_x: {predicted_x}, predicted_y: {predicted_y}")
 
         # Draw the predicted 'X' on the canvas
-        draw_x(predicted_x, predicted_y, 'red')
+        draw_x(predicted_x, predicted_y, 'red', capture_counter)
+        capture_counter += 1
+
         
         # Generate random coordinates
         random_x, random_y = generate_random_coords()
         print(f"source postionn to predict (in loop), random_x: {random_x}, random_y: {random_y}")
-        draw_x(random_x, random_y, 'green')
+        draw_x(random_x, random_y, 'green', capture_counter)
+        
 
 # Function to draw an 'X' on the canvas
-def draw_x(x, y, color):
+def draw_x(x, y, color, number):
     size = 10
     canvas.create_line(x - size, y - size, x + size, y + size, fill=color)
     canvas.create_line(x + size, y - size, x - size, y + size, fill=color)
+    canvas.create_text(x + size + 5, y, text=str(number), fill=color)
 
 def generate_random_coords():
     x = random.randint(0, screen_width)
@@ -77,6 +78,10 @@ def generate_random_coords():
 
 def exit_fullscreen(event):
     root.attributes('-fullscreen', False)
+
+
+cap = cv2.VideoCapture(0)
+
 
 # Create the main window
 root = tk.Tk()
@@ -97,10 +102,12 @@ canvas.pack()
 # Generate random coordinates
 random_x, random_y = generate_random_coords()
 print(f"source postionn to predict, random_x: {random_x}, random_y: {random_y}")
-draw_x(random_x, random_y, 'green')
+draw_x(random_x, random_y, 'green', capture_counter)
+capture_counter += 1
 
 # Bind the 'c' key to the image capture function
 root.bind('<c>', capture_image)
 
 # Run the application
 root.mainloop()
+cap.release()

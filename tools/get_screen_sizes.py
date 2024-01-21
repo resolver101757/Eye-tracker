@@ -1,4 +1,5 @@
-# get the coordinates of the X and save the image
+# gets teh screen size using pyqt5 and pygame and prints it out
+
 import pygame
 import cv2
 import random

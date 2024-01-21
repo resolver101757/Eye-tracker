@@ -1,3 +1,5 @@
+# gets screen size using pygame and prints it out
+
 import pygame
 
 # Initialize Pygame

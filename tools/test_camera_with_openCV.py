@@ -1,3 +1,5 @@
+# opens the camera and displays the feed to test openCV can access the camera
+
 import cv2
 
 # Initialize the camera (0 is the default camera)
