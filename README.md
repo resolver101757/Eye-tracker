@@ -1,24 +1,68 @@
-# Eye-tracker
+# Eye-Tracking Project
 
+## Introduction
 
-## Description
-Simple code to train a resnet18 with fastai for dodgy eye-tracking. It jumps around a lot, but for purely image input on a relatively small dataset for the task it does a surprisingly good job.
+Why have mouse when you can have eye tracking? Modern computers have cameras, screens, and faster and more efficient GPUs to run neural networks.  This project aims to train a model for eye-tracking to co-ordinates. The model is trained on a dataset of images captured in different lighting conditions, distances, postures, head rotations, and offsets.
 
-With around 6K samples of me in different lighting conditions, distances, postures, head rotations and offsets, I hit an MSE loss of around 0.0067, which is still an error range of a couple hundred pixels. I noticed a dramatic jump in performance going from 4K samples to 6K, so I definitely think there's plenty more that can be learned with just more samples alone.
+## Project Structure
 
-Loss dropped to around 0.005 with ~7K samples, but I didn't notice a significant improvement when actually running the model (possibly a dataset issue).
+### Directories
 
-## Possible improvements:
-To accurately predict, the model needs to infer info about: 
-- Distance to face
-- Rotation of head
-- Rotation of eyes
-- Head offset
-- Camera offset and rotation
-- Screen dimensions
+- `tools/`: Directory containing various utility scripts and notebooks.
+- `training/`: Directory containing Jupyter notebooks for training the model.
 
-Hopefully by feeding in a few of these features it'll improve convergence time and allow it to track other features better. Tools like facial landmarking models could probably be used to track head rotation and offset (in image space), and possibly distance with some maths around distance between features accounting for rotation (no idea what that equation looks like).
+### root files 
 
-To be able to generalize to different setups and people, you'd want to pass in user specific info like display dimensions and camera position & rotation in a configuration step.
+- `test_eye_position_using_model_tkinter.py`: Script for testing eye position using the trained model and Tkinter.
+- `collect_eye_head_pos_to_coords_tkinter.py`: Script for collecting eye and head position data using Tkinter.
+- `screen_sizes.json`: JSON file containing screen size data.
 
-Possibly a configuration step could have the user look at five points (centre and corners of monitor), track some features from that like distance and eye + head rotation, and pass that in. I think that would only be effective with a larger dataset of different configurations.
+## Setup
+
+Install python and the following packages:
+
+pip install opencv-python
+pip install python-tk
+pip install numpy
+pip install fastai
+pip install Pillow
+
+## Usage
+
+To start data collection (image to coordinates) run the following script and make sure you've selected the right camera - cv2.VideoCapture(1):
+
+- collect_eye_head_pos_to_coords_tkinter.py
+
+For testing the model there's a few scripts depending on how you want to test :
+
+To test the model run the following script and make sure you've selected the right camera, just change the line to the appropriate number cv2.VideoCapture(1):
+
+- tools/test_inference_taking_a_pic.py
+
+This will run though the saved images and show the actual to predicted coordinates.
+
+- tools/test_inference_from_saved_image.py
+
+Here's a few other scripts that might be useful for understanding the hardware, e.g. camera, screen size, etc:
+
+- tools/get_screen_sizes.py
+- tools/get_screen_sizes_pygame.py
+- tools/test_camera_with_openCV.py
+
+## Future Work
+
+- The model's accuracy could potentially be improved by feeding in additional features such as distance to face, rotation of head, rotation of eyes, head offset, camera offset and rotation, and screen dimensions. Tools like facial landmarking models could be used to track head rotation and offset, and possibly distance with some maths around distance between features accounting for rotation.
+
+- using a depth camera could also be used to get distance to face and head rotation mitigating the need for facial landmarking models.
+
+- intergrating the model into windows to control the mouse.
+
+- All modern laptops have a camera and most are windows hello certified, they also have a infrared camera too. This could be used to see in low light conditions and would help see pupils better in the dark or light conditions.  However, i havent been able to find a way to access the infrared camera in python.  Any suggestions would be appreciated.
+
+- Try differnt models and see if they improve accuracy
+ - transfomer model but might neeed to be much bigger to get good results.
+ - cnn model with more layers.
+
+Contributing
+
+Contributors are welcome! Please fork the repository, make your changes, and submit a pull request. Adhere to our coding standards (Python, non-PEP8), include tests for new features, and update documentation as necessary. For any questions or discussions, use our GitHub issues section.

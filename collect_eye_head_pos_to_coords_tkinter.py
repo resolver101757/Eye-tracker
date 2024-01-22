@@ -1,4 +1,5 @@
-# Re-written get_data.py using tkinter instead of pygame
+# This Python script uses Tkinter and OpenCV to create a full-screen application that captures and saves images from a camera when a key is pressed,
+# with the images being named based on the current timestamp and screen coordinates.
 
 import cv2
 import tkinter as tk
@@ -6,12 +7,16 @@ import random
 from datetime import datetime
 import os
 
+# Initialize the camera
+camera = cv2.VideoCapture(1)
 
 # gets the right screen size for the current computer
 if os.path.isfile('./current_device_home_laptop'):
-    screen_locaton = "home_laptop"
-else:
-    print("File does not exist")
+    screen_locaton = "home-laptop"
+elif os.path.isfile('./current_device_work_laptop'):
+    screen_locaton = "work-laptop"
+else :
+    print("No current device file found")
 
 # Directory to save captured images
 save_dir = "G:\My Drive\Learning\data_science\datasets\gaze-points"
@@ -19,18 +24,23 @@ save_dir = f"{save_dir}\{screen_locaton}"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
-# Initialize the camera
-camera = cv2.VideoCapture(0)
 
 # Function to capture and save the image
 def capture_and_save(x, y):
     ret, frame = camera.read()
     if ret:
+        # Flip the frame horizontally
+        if screen_locaton == "work_laptop":
+            frame = cv2.flip(frame, 0)
+        else: 
+            frame = cv2.flip(frame, 1)
         # Get current date and time for filename
         now = datetime.now()
         timestamp = now.strftime("%Y%m%d-%H%M%S")
         filename = f'capture_{timestamp}_{x}_{y}.png'
-        filename = os.path.join(save_dir, f'{timestamp}_{x}_{y}.png')
+        
+        filename = os.path.join(save_dir, f'{timestamp}-hieght{screen_width}-width{screen_height}-computer{screen_locaton}_{x}_{y}.png')
+        
         cv2.imwrite(filename, frame)
         print(f"Image saved as {filename}")
 

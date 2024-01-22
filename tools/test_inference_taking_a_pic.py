@@ -37,7 +37,10 @@ def get_y(fname):
     return coords
 
 # lodas model from pickle 
-model = load_learner(Path(r"G:\My Drive\Learning\data_science\models\eye-tracker\20240112_140058_eye_tracker-first_save_after_correct_screen_size.pkl"), cpu=True)
+#model = load_learner(Path(r"G:\My Drive\Learning\data_science\models\eye-tracker\20240112_140058_eye_tracker-first_save_after_correct_screen_size.pkl"), cpu=True)
+
+model = load_learner(Path(r"G:\My Drive\Learning\data_science\models\eye-tracker\20240122_171936_eye_tracker-re-saved_images_on_work_laptop_to_include_screen_details.pkl"), cpu=True)
+
 
 # Convert normalized coordinates to screen coordinates
 def normalized_coords_to_coords(n_coords):
