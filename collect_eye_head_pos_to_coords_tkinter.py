@@ -30,7 +30,7 @@ def capture_and_save(x, y):
     ret, frame = camera.read()
     if ret:
         # Flip the frame horizontally
-        if screen_locaton == "work_laptop":
+        if screen_locaton == "work-laptop":
             frame = cv2.flip(frame, 0)
         else: 
             frame = cv2.flip(frame, 1)
