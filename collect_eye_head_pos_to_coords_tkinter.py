@@ -8,13 +8,15 @@ from datetime import datetime
 import os
 
 # Initialize the camera
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 # gets the right screen size for the current computer
 if os.path.isfile('./current_device_home_laptop'):
     screen_locaton = "home-laptop"
+    print(screen_locaton)
 elif os.path.isfile('./current_device_work_laptop'):
     screen_locaton = "work-laptop"
+    print(screen_locaton)
 else :
     print("No current device file found")
 
@@ -40,9 +42,11 @@ def capture_and_save(x, y):
         filename = f'capture_{timestamp}_{x}_{y}.png'
         
         filename = os.path.join(save_dir, f'{timestamp}-hieght{screen_width}-width{screen_height}-computer{screen_locaton}_{x}_{y}.png')
-        
+        print(f"Saving image as {filename}")
         cv2.imwrite(filename, frame)
         print(f"Image saved as {filename}")
+    else:
+        print("Error capturing image")
 
 # Main window setup
 root = tk.Tk()
