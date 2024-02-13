@@ -25,7 +25,7 @@ else :
 
 # Directory to save captured images
 save_dir = "G:\My Drive\Learning\data_science\datasets\gaze-points"
-save_dir = f"{save_dir}\{screen_locaton}"
+save_dir = f"{save_dir}\{screen_locaton}\depth_and_color_images"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
@@ -61,18 +61,19 @@ def capture_and_save(x, y):
     
 
     # Show images
-    cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-    cv2.imshow('RealSense', images)
-    cv2.waitKey(1)
+    # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+    # cv2.imshow('RealSense', images)
+    # cv2.waitKey(1)
+    
     # Save color and depth images
-    color_img_path = f"images\{count}-color_image.jpg"
-    depth_img_path = f"images\{count}-depth_image.jpg"
+    color_img_path = os.path.join(save_dir, f'{timestamp}-hieght{screen_width}-width{screen_height}-computer{screen_locaton}-depth_{x}_{y}.png')
+    depth_img_path = os.path.join(save_dir, f'{timestamp}-hieght{screen_width}-width{screen_height}-computer{screen_locaton}-colour_{x}_{y}.png')
+
+
     cv2.imwrite(color_img_path, color_image)
     cv2.imwrite(depth_img_path, depth_colormap)
     print(f"Color image saved at {color_img_path}")
     print(f"Depth image saved at {depth_img_path}")
-    print(f"Image saved as {filename}")
-    print("Error capturing image")
 
 
 # Configure depth and color streams
