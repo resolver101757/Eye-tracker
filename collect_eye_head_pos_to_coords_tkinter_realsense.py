@@ -22,9 +22,9 @@ elif os.path.isfile('./current_device_work_laptop'):
     print(screen_locaton)
 else :
     print("No current device file found")
-
+ 
 # Directory to save captured images
-save_dir = "G:\My Drive\Learning\data_science\datasets\gaze-points"
+save_dir = "G:\My Drive\Learning\data_science\datasets_folder\gaze-points"
 save_dir = f"{save_dir}\{screen_locaton}\depth_and_color_images"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
@@ -65,10 +65,16 @@ def capture_and_save(x, y):
     # cv2.imshow('RealSense', images)
     # cv2.waitKey(1)
     
+    ## need to flp horizontally before saving
+    
     # Save color and depth images
     color_img_path = os.path.join(save_dir, f'{timestamp}-hieght{screen_width}-width{screen_height}-computer{screen_locaton}-depth_{x}_{y}.png')
     depth_img_path = os.path.join(save_dir, f'{timestamp}-hieght{screen_width}-width{screen_height}-computer{screen_locaton}-colour_{x}_{y}.png')
 
+
+    # Flip the images horizontally
+    color_image = cv2.flip(color_image, 1)
+    depth_colormap = cv2.flip(depth_colormap, 1)
 
     cv2.imwrite(color_img_path, color_image)
     cv2.imwrite(depth_img_path, depth_colormap)
